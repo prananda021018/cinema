@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineStream</title>
+  <style>
+    body{margin:0;font-family:"Segoe UI",sans-serif;background:#0b0b0f;color:#fff;transition:.4s}
+    header{position:sticky;top:0;width:100%;padding:15px 30px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;z-index:1000}
+    .logo{font-size:24px;font-weight:700;color:#ff2f55}
+    .nav input,.nav button{padding:8px 12px;border-radius:6px;border:none;background:#222;color:#fff}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;padding:20px}
+    .card{background:#141414;border-radius:10px;overflow:hidden;cursor:pointer;transition:.3s}
+    .card:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(255,47,85,.6)}
+    .card img{width:100%;height:260px;object-fit:cover}
+    .card p{text-align:center;padding:10px}
+    footer{text-align:center;padding:20px;background:#111;margin-top:30px}
+  </style>
+  <script type='text/javascript' src='//domicilesweetheart.com/bb/44/ef/bb44ef0f4b6fe9745d0a2f69511e0b04.js'></script>
+</head>
+<script type='text/javascript' src='//domicilesweetheart.com/05/ee/6b/05ee6b753e8a25d533d8e74bfc6ed9fb.js'></script>
+<body>
+  <header>
+    <div class="logo">🎬 CineMax</div>
+    <div class="nav">
+      <input type="text" id="search" placeholder="Search movie..."/>
+    </div>
+  </header>
+
+  <h2 style="padding:20px"></h2>
+  <div id="movie-list" class="grid"></div>
+
+  <footer>© 2025 CineStream – Powered by Rlxl</footer>
+
+  <script>
+    const API_KEY = "9a037603018ed0f55e94e1b37cff7581"; // ganti dengan API key TMDb kamu
+    const IMG_URL = "https://image.tmdb.org/t/p/w500";
+    const MY_DIRECT_LINK = "https://bitly.cx/JLRt"; // ganti dengan link pribadi kamu
+
+    async function getMovies(url){
+      const res = await fetch(url);
+      return await res.json();
+    }
+
+    async function loadPopular(){
+      const data = await getMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`);
+      renderMovies(data.results);
+    }
+
+    function renderMovies(movies){
+      const list=document.getElementById("movie-list");
+      list.innerHTML="";
+      movies.forEach(m=>{
+        const card=document.createElement("div");
+        card.className="card";
+        card.innerHTML=`
+          <img src="${IMG_URL+m.poster_path}" alt="${m.title}"/>
+          <p>${m.title}</p>
+        `;
+        // klik card langsung redirect ke link pribadi
+        card.onclick=()=>{ window.location.href = MY_DIRECT_LINK; };
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById("search").addEventListener("keyup",async e=>{
+      const q=e.target.value;
+      if(q.length>2){
+        const data=await getMovies(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${q}`);
+        renderMovies(data.results);
+      } else {
+        loadPopular();
+      }
+    });
+
+    loadPopular();
+  </script>
+  <script async="async" data-cfasync="false" src="//domicilesweetheart.com/7bd2c41db577d9627c40f8cbf6266e9d/invoke.js"></script>
+<div id="container-7bd2c41db577d9627c40f8cbf6266e9d"></div>
+</body>
+</html>
